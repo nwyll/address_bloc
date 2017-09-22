@@ -3,7 +3,7 @@ require_relative "../models/address_book"
 RSpec.describe AddressBook do
   
   describe "attributes" do
-    let(:book) { book = AddressBook.new }
+    let(:book) { AddressBook.new }
 
     it "responds to entries" do
       expect(book).to respond_to(:entries)
@@ -19,7 +19,7 @@ RSpec.describe AddressBook do
   end
   
   describe "#add_entry" do
-    let(:book) { book = AddressBook.new }
+    let(:book) { AddressBook.new }
     
     it "adds only one entry to the address book" do
       book.add_entry("Ada Lovelace", "010.012.1815", "augusta.king@lovelace.com")
