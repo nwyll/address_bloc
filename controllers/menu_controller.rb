@@ -106,7 +106,6 @@ class MenuController
   end
   
   def view_entry_n
-    system "clear"
     print "Enter the entry number you would like to view: "
     n = gets.chomp.to_i
     
@@ -114,8 +113,7 @@ class MenuController
     if n > address_book.entries.length
       system "clear"
       puts "There is not an entry #{n} in the address book."
-      main_menu
-      
+      view_entry_n
     else
       #display entry
       system "clear"
