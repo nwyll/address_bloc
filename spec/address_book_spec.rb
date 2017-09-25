@@ -44,6 +44,10 @@ RSpec.describe AddressBook do
       book.import_from_csv("entries.csv")
       book_size = book.entries.size
       expect(book_size).to eq 5
+      
+      book.import_from_csv("entries_2.csv")
+      book_size = book.entries.size
+      expect(book_size).to eq 8
     end
     
     it "imports the 1st entry" do
@@ -64,17 +68,46 @@ RSpec.describe AddressBook do
       check_entry(entry_three, "Joe", "555-555-3660", "joe@blocmail.com")
     end
  
-     it "imports the 4th entry" do
-       book.import_from_csv("entries.csv")
-       entry_four = book.entries[3]
-       check_entry(entry_four, "Sally", "555-555-4646", "sally@blocmail.com")
+    it "imports the 4th entry" do
+      book.import_from_csv("entries.csv")
+      entry_four = book.entries[3]
+      check_entry(entry_four, "Sally", "555-555-4646", "sally@blocmail.com")
+      
+      book.import_from_csv("entries_2.csv")
+      entry_four = book.entries[3]
+      check_entry(entry_four, "Madison", "214-567-1823", "madisonthedog@gmail.com")
+    end
+   
+    it "imports the 5th entry" do
+      book.import_from_csv("entries.csv")
+      entry_five = book.entries[4]
+      check_entry(entry_five, "Sussie", "555-555-2036", "sussie@blocmail.com")
+      
+      book.import_from_csv("entries_2.csv")
+      entry_five = book.entries[4]
+      check_entry(entry_five, "Michael", "214-537-1999", "mwyll@gmail.com")
      end
- 
-     it "imports the 5th entry" do
-       book.import_from_csv("entries.csv")
-       entry_five = book.entries[4]
-       check_entry(entry_five, "Sussie", "555-555-2036", "sussie@blocmail.com")
+     
+    it "imports the 6th entry" do
+      book.import_from_csv("entries.csv")
+      book.import_from_csv("entries_2.csv")
+      entry_six = book.entries[5]
+      check_entry(entry_six, "Natalie", "214-808-7017", "nataliewyll@yahoo.com")
      end
+     
+    it "imports the 7th entry" do
+      book.import_from_csv("entries.csv")
+      book.import_from_csv("entries_2.csv")
+      entry_seven = book.entries[6]
+      check_entry(entry_seven, "Sally", "555-555-4646", "sally@blocmail.com")
+    end
+     
+    it "imports the 8th entry" do
+      book.import_from_csv("entries.csv")
+      book.import_from_csv("entries_2.csv")
+      entry_eight = book.entries[7]
+      check_entry(entry_eight, "Sussie", "555-555-2036", "sussie@blocmail.com")
+    end
   end
   
 end
