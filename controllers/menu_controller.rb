@@ -192,7 +192,7 @@ class MenuController
     response = gets.chomp
     
     if response == "Yes"
-      address_book.entries.clear
+      address_book.nuke
       puts "All entries have been deleted."
     else
       system "clear"

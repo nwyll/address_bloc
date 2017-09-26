@@ -2,7 +2,7 @@ require_relative 'entry.rb'
 require "csv"
 
 class AddressBook
-  attr_accessor :entries
+  attr_reader :entries
   
   def initialize()
     @entries = []
@@ -27,6 +27,10 @@ class AddressBook
       end
       @entries.delete(deleted_entry)
     end
+  end
+  
+  def nuke
+    @entries.clear
   end
   
   def import_from_csv(file_name)

@@ -126,4 +126,14 @@ RSpec.describe AddressBook do
     end
   end
   
+  describe "#nuke" do
+    it "should delete all entries" do
+      book.import_from_csv("entries.csv")
+      expect(book.entries.size).to eq (5)
+      
+      book.nuke
+      expect(book.entries.size).to eq (0)
+    end
+  end
+  
 end
