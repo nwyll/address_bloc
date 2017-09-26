@@ -13,7 +13,8 @@ class MenuController
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import entries from a CSV"
-    puts "5 - Exit"
+    puts "5 - Delete all entries"
+    puts "6 - Exit"
     print "Enter your selection: "
     
     selection = gets.to_i
@@ -36,6 +37,10 @@ class MenuController
         read_csv
         main_menu
       when 5
+        system "clear"
+        delete_all_entries
+        main_menu
+      when 6
         puts "Good-bye!"
         exit(0)
       else
@@ -43,6 +48,17 @@ class MenuController
         puts "Sorry, that is not a valid selection."
         main_menu
     end
+  end
+  
+  def view_all_entries
+    address_book.entries.each do |entry|
+      system "clear"
+      puts entry.to_s
+      entry_submenu(entry)
+    end
+    
+    system "clear"
+    puts "End of entries."
   end
   
   def entry_submenu(entry)
@@ -70,17 +86,6 @@ class MenuController
     end
   end
   
-  def view_all_entries
-    address_book.entries.each do |entry|
-      system "clear"
-      puts entry.to_s
-      entry_submenu(entry)
-    end
-    
-    system "clear"
-    puts "End of entries."
-  end
-  
   def create_entry
     system "clear"
     puts "New AddressBloc Entry"
@@ -96,6 +101,21 @@ class MenuController
     
     system "clear"
     puts "New entry created."
+  end
+  
+  def search_entries
+    print "Search by name: "
+    name = gets.chomp
+    
+    match = address_book.binary_search(name)
+    system "clear"
+    
+    if match
+      puts match.to_s
+      search_submenu(match)
+    else
+      puts "No match found for #{name}"
+    end
   end
   
   def search_submenu(entry)
@@ -122,21 +142,6 @@ class MenuController
         puts "#{selection} is not a valid input"
         puts entry.to_s
         search_submenu(entry)
-    end
-  end
-  
-  def search_entries
-    print "Search by name: "
-    name = gets.chomp
-    
-    match = address_book.binary_search(name)
-    system "clear"
-    
-    if match
-      puts match.to_s
-      search_submenu(match)
-    else
-      puts "No match found for #{name}"
     end
   end
   
@@ -180,6 +185,19 @@ class MenuController
     
     puts "Updated entry:"
     puts entry
+  end
+  
+  def delete_all_entries
+    puts "Are you sure you want to delete all entries? This action cannot be reversed. Type 'Yes' to confirm."
+    response = gets.chomp
+    
+    if response == "Yes"
+      address_book.entries.clear
+      puts "All entries have been deleted."
+    else
+      system "clear"
+      main_menu
+    end
   end
   
 end
