@@ -2,24 +2,24 @@ require_relative "../models/address_book.rb"
 
 class MenuController
   attr_reader :address_book
-  
+
   def initialize
-    @address_book = AddressBook.new
+    @address_book = AddressBook.first
   end
-  
+
   def main_menu
-    puts "Main Menu - #{address_book.entries.count} entries"
+    puts "#{@address_book.name} Address Book - #{Entry.count} entries"
     puts "1 - View all entries"
     puts "2 - Create an entry"
     puts "3 - Search for an entry"
     puts "4 - Import entries from a CSV"
     puts "5 - Exit"
     print "Enter your selection: "
-    
+
     selection = gets.to_i
-  
+
     case selection
-      when 1 
+      when 1
         system "clear"
         view_all_entries
         main_menu
@@ -44,7 +44,7 @@ class MenuController
         main_menu
     end
   end
-  
+
   def entry_submenu(entry)
     puts "n - next entry"
     puts "d - delete entry"
@@ -52,7 +52,7 @@ class MenuController
     puts "m - return to main menu"
     print "Selection: "
     selection = gets.chomp
-    
+
     case selection
       when "n"
       when "d"
@@ -69,42 +69,42 @@ class MenuController
         entry_submenu(entry)
     end
   end
-  
+
   def view_all_entries
-    address_book.entries.each do |entry|
+    Entry.all.each do |entry|
       system "clear"
       puts entry.to_s
       entry_submenu(entry)
     end
-    
+
     system "clear"
     puts "End of entries."
   end
-  
+
   def create_entry
     system "clear"
     puts "New AddressBloc Entry"
-    
+
     print "Name: "
     name = gets.chomp
     print "Phone number: "
     phone = gets.chomp
     print "Email: "
     email = gets.chomp
-    
+
     address_book.add_entry(name, phone, email)
-    
+
     system "clear"
     puts "New entry created."
   end
-  
+
   def search_submenu(entry)
     puts "\nd - delete entry"
     puts "e - edit entry"
     puts "m - return to main menu"
     print "Selection: "
     selection = gets.chomp
-    
+
     case selection
       when "d"
         system "clear"
@@ -124,14 +124,14 @@ class MenuController
         search_submenu(entry)
     end
   end
-  
+
   def search_entries
     print "Search by name: "
     name = gets.chomp
-    
-    match = address_book.binary_search(name)
+
+    match = Entry.find_by(:name, name)
     system "clear"
-    
+
     if match
       puts match.to_s
       search_submenu(match)
@@ -139,17 +139,17 @@ class MenuController
       puts "No match found for #{name}"
     end
   end
-  
+
   def read_csv
     print "Enter CSV file to import: "
     file_name = gets.chomp
-    
+
     if file_name.empty?
       system "clear"
       puts "No CSV file read."
       main_menu
     end
-    
+
     begin
       entry_count = address_book.import_from_csv(file_name).count
       system "clear"
@@ -159,12 +159,12 @@ class MenuController
       read_csv
     end
   end
-  
+
   def delete_entry(entry)
     address_book.entries.delete(entry)
     puts "#{entry.name} has been deleted."
   end
-  
+
   def edit_entry(entry)
     print "Updated name: "
     name = gets.chomp
@@ -172,15 +172,14 @@ class MenuController
     phone_number = gets.chomp
     print "Updated email: "
     email = gets.chomp
-    
+
     entry.name = name if !name.empty?
     entry.phone_number = phone_number if !phone_number.empty?
     entry.email = email if !email.empty?
     system "clear"
-    
+
     puts "Updated entry:"
     puts entry
   end
-  
-end
 
+end
