@@ -4,7 +4,7 @@ class MenuController
   attr_reader :address_book
 
   def initialize
-    @address_book = AddressBook.first
+    @address_book = AddressBook.first 
   end
 
   def main_menu
