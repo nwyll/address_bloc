@@ -3,7 +3,6 @@ require 'csv'
 require 'bloc_record/base'
 
 class AddressBook < BlocRecord::Base
-  attr_accessor :entries
 
   def initialize(options={})
     super
@@ -14,6 +13,14 @@ class AddressBook < BlocRecord::Base
     Entry.create(name: name, phone_number: phone, email: email, address_book_id: self.id)
   end
 
+  def entries
+    Entry.where(address_book_id: self.id)
+  end
+
+  def find_entry(name)
+    Entry.where(name: name, address_book_id: self.id).first
+  end
+  
   def remove_entry(name, phone_number, email)
     deleted_entry = nil
     @entries.each do |entry|
